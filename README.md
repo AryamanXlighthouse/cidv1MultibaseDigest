@@ -25,16 +25,6 @@ Run the script with a CID value as a command-line argument:
     node src/server.js <CIDv0_VALUE>
     ```
 
-## How it works
-1. The script decodes the given CID value using `multiformats/cid` and `multiformats/basics`.
-2. It extracts and displays the following components of the CID:
-* CID version
-* Multibase encoding
-* Multicodec identifier
-* Multihash identifier and its size in bits
-* Multihash digest in the specified Multibase encoding (base16 by default)
-* Base32-encoded CIDv1
-
 ## Example
 
 ```bash
