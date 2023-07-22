@@ -21,9 +21,9 @@ This is a Node.js script to receive CIDv0 as input and exports Multibase Digest 
 ## Usage
 Run the script with a CID value as a command-line argument:
 
-    ```bash
-    node src/server.js <CIDv0_VALUE>
-    ```
+```bash
+node src/server.js <CIDv0_VALUE>
+```
 
 ## Example
 
