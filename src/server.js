@@ -74,5 +74,8 @@ if (!inputCid) {
   // Process the CID and display the result
   const output0 = processCIDv0(inputCid);
   const output1 = processCIDv1(output0);
-  console.log(output1);
+  const upperCasedOutput = output1.toUpperCase();
+  const indexOfRemoval = upperCasedOutput.indexOf(": ") + 2
+  const processedOutput = upperCasedOutput.slice(0,indexOfRemoval) + upperCasedOutput.slice(indexOfRemoval+1)
+  console.log(processedOutput);
 }
