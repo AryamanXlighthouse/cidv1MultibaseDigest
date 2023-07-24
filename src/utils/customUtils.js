@@ -1,12 +1,11 @@
-// Import necessary modules
 import { CID } from "multiformats/cid";
 import { bases } from "multiformats/basics";
+import { readFile } from 'fs/promises';
 
 // Import codecs.json using fs/promises
-import { readFile } from 'fs/promises';
 const codecs = JSON.parse(
   await readFile(
-    new URL('../codecs.json', import.meta.url)
+    new URL('../../codecs.json', import.meta.url)
   )
 );
 
@@ -17,7 +16,7 @@ const basesByPrefix = Object.keys(bases).reduce((acc, curr) => {
 }, {});
 
 // Function to decode a CID value and extract its components
-function decodeCID(value) {
+export function decodeCID(value) {
   // Extract the prefix from the CID value
   const prefix = value.substr(0, 1);
   // Get the base object using the prefix
@@ -38,7 +37,7 @@ function decodeCID(value) {
 }
 
 // Function to process CIDv0 and return the CIDv1 version
-function processCIDv0(inputCid) {
+export function processCIDv0(inputCid) {
   try {
     // Decode the input CID
     const data = decodeCID(inputCid);
@@ -50,7 +49,7 @@ function processCIDv0(inputCid) {
 }
 
 // Function to process CIDv1 and return the multihash bytes in the specified base encoding
-function processCIDv1(inputCid) {
+export function processCIDv1(inputCid) {
   try {
     // Decode the input CID
     const data = decodeCID(inputCid);
@@ -59,23 +58,4 @@ function processCIDv1(inputCid) {
   } catch (err) {
     return { error: err.message || err };
   }
-}
-
-// Get the CID value from command-line arguments
-const inputCid = process.argv[2];
-
-// Check if the CID value is provided
-if (!inputCid) {
-  // Display an error message if CID value is missing
-  console.error(
-    "Error: CID value is missing. Please provide the CID value as a command-line argument."
-  );
-} else {
-  // Process the CID and display the result
-  const output0 = processCIDv0(inputCid);
-  const output1 = processCIDv1(output0);
-  const upperCasedOutput = output1.toUpperCase();
-  const indexOfRemoval = upperCasedOutput.indexOf(": ") + 2
-  const processedOutput = upperCasedOutput.slice(0,indexOfRemoval) + upperCasedOutput.slice(indexOfRemoval+1)
-  console.log(processedOutput);
 }
