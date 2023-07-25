@@ -79,16 +79,17 @@ To use the CID Processing System, you can run the `main.js` file with specific c
 
 3. To check the block status of IPFS links:
     ```bash
-    npm start checklink QmczJjxnWQJfnpmoAoTFP2CixPMFggHjF9gmzaZfbd7zD5
+    npm start checklink QmemrtP375UdJcNpm3b1Y5S1JPArPFKKStffs4eSsaLxR8
     ```
     Expected output:
     ```bash
+    Warning: Unable to fetch DAG-JSON for CID 'QmemrtP375UdJcNpm3b1Y5S1JPArPFKKStffs4eSsaLxR8' from IPFS. Response status: 404
     Checking IPFS links for block status...
+    Checking link QmemrtP375UdJcNpm3b1Y5S1JPArPFKKStffs4eSsaLxR8...
     List of blocked IPFS links:
-    CID 1: QmczJjxnWQJfnpmoAoTFP2CixPMFggHjF9gmzaZfbd7zD5
-    CID 2: QmXv33XY4tfwxq85PoZkunMB4N5NPgWXQHZX1FqdrksoQj
-    ...
-    Total blocked links found: 20
+    CID 1: DIGEST BASE32 MULTIBASE: CIQPIMCHT72DOOS2B4YLXD2BOJX4L5OQVEOXYCHFCER3QZY2IIJOCOY
+
+    Total blocked links found: 1
     ```
 
 ## Custom Utils and IPFS Utils
