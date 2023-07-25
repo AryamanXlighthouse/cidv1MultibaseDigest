@@ -6,37 +6,26 @@ export async function downloadFileAndExtractHashes(CID, hashList = []) {
   const url = `${baseURL}${CID}?format=dag-json`;
 
   try {
-    // Make the request and wait for the response
     const response = await fetch(url);
 
-    // Check if the request was successful
-    if (!response.ok) {
-      throw new Error('Network response was not ok.');
+    if (response.ok) {
+      const fileContent = await response.text();
+      const parsedContent = JSON.parse(fileContent);
+      const linkedHashes = parsedContent.Links.map(link => link.Hash['/']);
+      hashList.push(...linkedHashes);
+
+      for (const hash of linkedHashes) {
+        await downloadFileAndExtractHashes(hash, hashList);
+      }
+    } else {
+      console.warn(`Warning: Unable to fetch DAG-JSON for CID '${CID}' from IPFS. Response status: ${response.status}`);
+      // You might want to consider throwing an error here if needed.
     }
 
-    // Read the response as text
-    const fileContent = await response.text();
-
-    // Parse the JSON content
-    const parsedContent = JSON.parse(fileContent);
-
-    // Extract the hashes from the Links array
-    const linkedHashes = parsedContent.Links.map(link => link.Hash['/']);
-
-    // Add the current hashes to the hashList
-    hashList.push(...linkedHashes);
-
-    // Recursively call the function for each hash found in the Links array
-    for (const hash of linkedHashes) {
-      await downloadFileAndExtractHashes(hash, hashList);
-    }
-
-    // Return the updated list of hashes
     return hashList;
   } catch (error) {
     console.error('Error while downloading or processing the file:', error);
-    // You can handle the error accordingly.
-    // For example, you might want to return an error message or rethrow the error.
+    // You can handle the error accordingly, for example, return an empty hashList or rethrow the error.
     return hashList;
   }
 }
